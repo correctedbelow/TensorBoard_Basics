@@ -14,11 +14,12 @@ print('tensorboard --logdir=workaround:"' + tensorboard_logdir + '"') # See: htt
 
 tf.set_random_seed(195936478)
 
-x = tf.placeholder(tf.float32, shape=(None, 2))
-h = tf.layers.dense(x, units=2, activation=tf.sigmoid, use_bias=True)
-y = tf.layers.dense(h, units=1, use_bias=True)
-answers = tf.placeholder(tf.float32, shape=(None,1))
-mean_squared_error = tf.reduce_mean(tf.square(answers - y))
+x = tf.placeholder(tf.float32, shape=(None, 2), name="x")
+h = tf.layers.dense(x, units=2, activation=tf.sigmoid, use_bias=True, name="h")
+y = tf.layers.dense(h, units=1, use_bias=True, name="y")
+answers = tf.placeholder(tf.float32, shape=(None,1), name="answers")
+with tf.name_scope("error"):
+   mean_squared_error = tf.reduce_mean(tf.square(answers - y))
 optimizer = tf.train.AdamOptimizer(learning_rate=0.01) # Create an optimizer
 train = optimizer.minimize(mean_squared_error)
 session = tf.Session()
