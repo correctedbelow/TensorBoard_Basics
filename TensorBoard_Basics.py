@@ -27,6 +27,10 @@ session = tf.Session()
 tf.summary.scalar("mean_squared_error", mean_squared_error)
 tf.summary.histogram("h", h)
 tf.summary.histogram("y", y)
+tf.summary.histogram("h/kernel", tf.get_default_graph().get_tensor_by_name("h/kernel:0"))
+tf.summary.histogram("h/bias", tf.get_default_graph().get_tensor_by_name("h/bias:0"))
+tf.summary.histogram("y/kernel", tf.get_default_graph().get_tensor_by_name("y/kernel:0"))
+tf.summary.histogram("y/bias", tf.get_default_graph().get_tensor_by_name("y/bias:0"))
 
 summarizer = tf.summary.merge_all()
 
