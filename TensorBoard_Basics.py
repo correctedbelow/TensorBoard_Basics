@@ -1,11 +1,16 @@
 import sys
 import os
+import datetime
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
 
 print('Python {}'.format(sys.version))
 print('TensorFlow {}'.format(tf.__version__))
+
+project_root = os.path.dirname(os.path.realpath(__file__))
+tensorboard_logdir = os.path.join(project_root, 'tmp', 'tensorboard')
+print('tensorboard --logdir=workaround:"' + tensorboard_logdir + '"') # See: https://github.com/tensorflow/tensorflow/issues/6313
 
 tf.set_random_seed(195936478)
 
