@@ -25,6 +25,8 @@ train = optimizer.minimize(mean_squared_error)
 session = tf.Session()
 
 tf.summary.scalar("mean_squared_error", mean_squared_error)
+tf.summary.histogram("h", h)
+tf.summary.histogram("y", y)
 
 summarizer = tf.summary.merge_all()
 
