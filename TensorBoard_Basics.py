@@ -23,6 +23,14 @@ optimizer = tf.train.AdamOptimizer(learning_rate=0.01) # Create an optimizer
 train = optimizer.minimize(mean_squared_error)
 session = tf.Session()
 
+tf.summary.scalar("mean_squared_error", mean_squared_error)
+
+summarizer = tf.summary.merge_all()
+
+run_name = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")
+summary_filename = os.path.join(tensorboard_logdir, run_name)
+summary_writer = tf.summary.FileWriter(logdir=summary_filename, graph=session.graph)
+
 session.run(tf.global_variables_initializer()) # REMEMBER: Always initialize your variables!
 
 xor_inputs = [
@@ -43,7 +51,9 @@ print(prediction)
 
 
 for i in range(2001):
-   error, _ = session.run([mean_squared_error, train], {x: xor_inputs, answers: xor_outputs})
+   error, summary, _ = session.run([mean_squared_error, summarizer, train], {x: xor_inputs, answers: xor_outputs})
+   summary_writer.add_summary(summary, i)
+
    if i % 250 == 0:
       print('mean_squared_error:', error)
 prediction = session.run(y, {x: xor_inputs})
